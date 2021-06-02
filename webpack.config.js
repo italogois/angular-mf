@@ -24,11 +24,12 @@ module.exports = {
     new ModuleFederationPlugin({
       // For remotes (please adjust)
 
-      // name: "ngMfWeather",
-      // filename: "remoteEntry.js",
-      // exposes: {
-      //     './Component': './src/app/app.component.ts',
-      // },
+      name: "ngMfWeather",
+      filename: "remoteEntry.js",
+      exposes: {
+        "./WeatherWidgetModule":
+          "./src/app/weather-widget/weather-widget.module.ts",
+      },
 
       // For hosts (please adjust)
       // remotes: {
