@@ -6,6 +6,8 @@ import {
   ViewChild,
 } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { environment } from 'src/environments/environment';
+import { DummyComponent } from '../dummy/dummy.component';
 import { ZipCodeService } from '../services/zip-code.service';
 import { AdDirective } from './ad.directive';
 
@@ -20,7 +22,7 @@ interface AbstractAddAlertButtonComponent {
   styleUrls: ['./weather-widget.component.scss'],
 })
 export class WeatherWidgetComponent {
-  componentRef: ComponentRef<AbstractAddAlertButtonComponent> | undefined;
+  componentRef: ComponentRef<any> | undefined;
   @ViewChild(AdDirective, { static: true }) adHost!: AdDirective;
   location = '';
   private baseUrl = 'https://morgenwirdes.de/api/v2/3day.php?plz=';
@@ -33,9 +35,14 @@ export class WeatherWidgetComponent {
   ) {}
 
   async seaerch() {
-    this.createComponent();
     this.createWeatherWidgetUrl();
-    console.log('seaerch ');
+    try {
+      await this.createComponent();
+    } catch {
+      if (!environment.production) {
+        this.createDummyComponent();
+      }
+    }
   }
 
   async createWeatherWidgetUrl() {
@@ -68,5 +75,16 @@ export class WeatherWidgetComponent {
       );
     this.componentRef.instance.location = this.location;
     this.componentRef.instance.type = 'weather';
+  }
+
+  async createDummyComponent() {
+    const componentFactory =
+      this.componentFactoryResolver.resolveComponentFactory(DummyComponent);
+
+    const viewContainerRef = this.adHost.viewContainerRef;
+    viewContainerRef.clear();
+
+    this.componentRef =
+      viewContainerRef.createComponent<DummyComponent>(componentFactory);
   }
 }
