@@ -5,10 +5,8 @@ import {
   ComponentRef,
   ViewChild,
 } from '@angular/core';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { environment } from 'src/environments/environment';
 import { DummyComponent } from '../dummy/dummy.component';
-import { ZipCodeService } from '../services/zip-code.service';
 import { AdDirective } from './ad.directive';
 
 interface AbstractAddAlertButtonComponent {
@@ -24,18 +22,13 @@ interface AbstractAddAlertButtonComponent {
 export class WeatherWidgetComponent {
   componentRef: ComponentRef<any> | undefined;
   @ViewChild(AdDirective, { static: true }) adHost!: AdDirective;
+  locationToSearch = '';
   location = '';
-  private baseUrl = 'https://morgenwirdes.de/api/v2/3day.php?plz=';
-  url!: SafeResourceUrl;
 
-  constructor(
-    private sanitizer: DomSanitizer,
-    private componentFactoryResolver: ComponentFactoryResolver,
-    private zipCodeService: ZipCodeService
-  ) {}
+  constructor(private componentFactoryResolver: ComponentFactoryResolver) {}
 
   async seaerch() {
-    this.createWeatherWidgetUrl();
+    this.locationToSearch = this.location;
     try {
       await this.createComponent();
     } catch {
@@ -43,16 +36,6 @@ export class WeatherWidgetComponent {
         this.createDummyComponent();
       }
     }
-  }
-
-  async createWeatherWidgetUrl() {
-    console.log('createWeatherWidgetUrl ');
-    const zipCode = await this.zipCodeService.getZipCodeByLocationSearch(
-      this.location
-    );
-    this.url = this.sanitizer.bypassSecurityTrustResourceUrl(
-      this.baseUrl + zipCode
-    );
   }
 
   async createComponent() {

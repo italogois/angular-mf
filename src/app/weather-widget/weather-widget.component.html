@@ -1,34 +1,22 @@
 <div class="border border-5 border-warning p-5">
-  location: <input type="text" [(ngModel)]="location" />
+  <div class="row">
+    <div class="col-12">
+      location:
+      <input type="text" [(ngModel)]="location" (keyup.enter)="seaerch()" />
+      <button type="button" class="btn btn-primary ms-2" (click)="seaerch()">
+        seaerch
+      </button>
+    </div>
 
-  <button type="button" class="btn btn-primary" (click)="seaerch()">
-    seaerch
-  </button>
-  <br />
-  <br />
+    <br />
+    <br />
 
-  <ng-template adHost></ng-template>
+    <div class="col-12 mt-5">
+      <ng-template adHost></ng-template>
+    </div>
 
-  <br />
-  <br />
-
-  <div
-    *ngIf="url"
-    style="
-      position: relative;
-      padding-bottom: 54.6%;
-      height: 0;
-      overflow: hidden;
-      width: 35%;
-      height: auto;
-    "
-  >
-    <iframe
-      title="3 Tage Trend"
-      frameborder="0"
-      [src]="url"
-      style="position: absolute; top: 0; left: 0; width: 100%; height: 100%"
-      scrolling="no"
-    ></iframe>
+    <div class="col-12 mt-1">
+      Imagine to get the weather for "{{ locationToSearch }}" displayed here :)
+    </div>
   </div>
 </div>
