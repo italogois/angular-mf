@@ -1,11 +1,4 @@
 const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
-const mf = require("@angular-architects/module-federation/webpack");
-const path = require("path");
-
-const sharedMappings = new mf.SharedMappings();
-sharedMappings.register(path.join(__dirname, "tsconfig.json"), [
-  /* mapped paths to share */
-]);
 
 module.exports = {
   output: {
@@ -15,37 +8,23 @@ module.exports = {
   optimization: {
     runtimeChunk: false,
   },
-  resolve: {
-    alias: {
-      ...sharedMappings.getAliases(),
-    },
+  experiments: {
+    outputModule: true,
   },
   plugins: [
     new ModuleFederationPlugin({
-      // For remotes (please adjust)
-
+      library: { type: "module" },
       name: "ngMfWeather",
       filename: "remoteEntry.js",
       exposes: {
-        "./WeatherWidgetModule":
-          "./src/app/weather-widget/weather-widget.module.ts",
+        "./WeatherWidgetModule": "./src/app/weather-widget/weather-widget.module.ts",
       },
-
-      // For hosts (please adjust)
-      // remotes: {
-      //     "mfe1": "mfe1@http://localhost:3000/remoteEntry.js",
-
-      // },
-
       shared: {
-        "@angular/core": { singleton: true, strictVersion: true },
-        "@angular/common": { singleton: true, strictVersion: true },
-        "@angular/common/http": { singleton: true, strictVersion: true },
-        "@angular/router": { singleton: true, strictVersion: true },
-
-        ...sharedMappings.getDescriptors(),
+        "@angular/core": { singleton: true, strictVersion: false, requiredVersion: "auto" },
+        "@angular/common": { singleton: true, strictVersion: false, requiredVersion: "auto" },
+        "@angular/common/http": { singleton: true, strictVersion: false, requiredVersion: "auto" },
+        "@angular/router": { singleton: true, strictVersion: false, requiredVersion: "auto" },
       },
     }),
-    sharedMappings.getPlugin(),
   ],
 };

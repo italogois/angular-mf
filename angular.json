@@ -49,7 +49,7 @@
                 }
               ],
               "outputHashing": "all",
-              "extraWebpackConfig": "webpack.prod.config.js"
+              "extraWebpackConfig": "webpack.config.js"
             },
             "development": {
               "buildOptimizer": false,
@@ -67,14 +67,14 @@
           "configurations": {
             "production": {
               "browserTarget": "ng-mf-weather:build:production",
-              "extraWebpackConfig": "webpack.prod.config.js"
+              "extraWebpackConfig": "webpack.config.js"
             },
             "development": {
               "browserTarget": "ng-mf-weather:build:development"
             }
           },
           "defaultConfiguration": "development",
-          "options": { "extraWebpackConfig": "webpack.config.js", "port": 5100 }
+          "options": { "extraWebpackConfig": "webpack.config.js", "port": 5100, "publicHost": "http://localhost:5100" }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
@@ -96,6 +96,5 @@
         }
       }
     }
-  },
-  "defaultProject": "ng-mf-weather"
+  }
 }
