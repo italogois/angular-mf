@@ -1,22 +1,8 @@
-<div class="border border-5 border-warning p-5">
-  <div class="row">
-    <div class="col-12">
-      location:
-      <input type="text" [(ngModel)]="location" (keyup.enter)="seaerch()" />
-      <button type="button" class="btn btn-primary ms-2" (click)="seaerch()">
-        seaerch
-      </button>
-    </div>
+<br />
+<h2>Modulo de outra aplicacao</h2>
 
-    <br />
-    <br />
+<button class="nav-link" routerLink="dummy" routerLinkActive="active">botao para outra rota</button>
 
-    <div class="col-12 mt-5">
-      <ng-template adHost></ng-template>
-    </div>
-
-    <div class="col-12 mt-1">
-      Imagine to get the weather for "{{ locationToSearch }}" displayed here :)
-    </div>
-  </div>
+<div class="container mt-5">
+  <router-outlet></router-outlet>
 </div>
